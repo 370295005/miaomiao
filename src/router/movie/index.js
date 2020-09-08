@@ -3,24 +3,20 @@ export default {
   component: () => import("@/views/Movie"),
   children: [
     {
-      path: 'city',
-      component: () => import('@/components/City')
+      path: "nowplaying",
+      component: () => import("@/components/Nowplaying")
     },
     {
-      path: 'nowplaying',
-      component: () => import('@/components/Nowplaying')
+      path: "comingsoon",
+      component: () => import("@/components/Comingsoon")
     },
     {
-      path: 'comingsoon',
-      component: () => import('@/components/Comingsoon')
+      path: "search",
+      component: () => import("@/components/Search")
     },
     {
-      path: 'search',
-      component: () => import('@/components/Search')
-    },
-    {
-      path: '/movie',
-      redirect: '/movie/nowplaying'
+      path: "/movie",
+      redirect: "/movie/nowplaying"
     }
   ]
 };
