@@ -4,9 +4,7 @@
       <li>
         <div>
           <span>大地影院(澳东世纪店)</span>
-          <span class="q">
-            <span class="price">22.9</span> 元起
-          </span>
+          <span class="q"> <span class="price">22.9</span> 元起 </span>
         </div>
         <div class="address">
           <span>金州区大连经济技术开发区澳东世纪3层</span>
@@ -20,9 +18,7 @@
       <li>
         <div>
           <span>大地影院(澳东世纪店)</span>
-          <span class="q">
-            <span class="price">22.9</span> 元起
-          </span>
+          <span class="q"> <span class="price">22.9</span> 元起 </span>
         </div>
         <div class="address">
           <span>金州区大连经济技术开发区澳东世纪3层</span>
@@ -36,9 +32,7 @@
       <li>
         <div>
           <span>大地影院(澳东世纪店)</span>
-          <span class="q">
-            <span class="price">22.9</span> 元起
-          </span>
+          <span class="q"> <span class="price">22.9</span> 元起 </span>
         </div>
         <div class="address">
           <span>金州区大连经济技术开发区澳东世纪3层</span>
@@ -52,9 +46,7 @@
       <li>
         <div>
           <span>大地影院(澳东世纪店)</span>
-          <span class="q">
-            <span class="price">22.9</span> 元起
-          </span>
+          <span class="q"> <span class="price">22.9</span> 元起 </span>
         </div>
         <div class="address">
           <span>金州区大连经济技术开发区澳东世纪3层</span>
@@ -68,9 +60,7 @@
       <li>
         <div>
           <span>大地影院(澳东世纪店)</span>
-          <span class="q">
-            <span class="price">22.9</span> 元起
-          </span>
+          <span class="q"> <span class="price">22.9</span> 元起 </span>
         </div>
         <div class="address">
           <span>金州区大连经济技术开发区澳东世纪3层</span>
@@ -84,9 +74,7 @@
       <li>
         <div>
           <span>大地影院(澳东世纪店)</span>
-          <span class="q">
-            <span class="price">22.9</span> 元起
-          </span>
+          <span class="q"> <span class="price">22.9</span> 元起 </span>
         </div>
         <div class="address">
           <span>金州区大连经济技术开发区澳东世纪3层</span>

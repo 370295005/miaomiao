@@ -11,7 +11,7 @@
           <p>影院</p>
         </router-link>
         <router-link tag="li" to="/mine">
-          <i class="iconfont icon-wode"></i>
+          <i class="iconfont icon-wode4"></i>
           <p>我的</p>
         </router-link>
       </ul>

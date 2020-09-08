@@ -1,7 +1,7 @@
 <template>
   <div>
     <header id="header">
-      <h1>{{title}}</h1>
+      <h1>{{ title }}</h1>
     </header>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
 }
 #header i {
   position: absolute;
-  left: 5px;
+  left: 7px;
   top: 50%;
   margin-top: -13px;
   font-size: 26px;
