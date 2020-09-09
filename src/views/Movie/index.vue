@@ -19,9 +19,8 @@
           <i class="iconfont icon-sousuo"></i>
         </router-link>
       </div>
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+
+      <router-view></router-view>
     </div>
 
     <Tabbar></Tabbar>
@@ -36,16 +35,20 @@ export default {
   name: "Movie",
   data() {
     return {
-      name: "正在定位",
-      ip: ""
+      name: "",
+      ip: "",
+      tmp: "",
+      cityId: ""
     };
   },
   components: {
     Header,
     Tabbar
   },
-  created() {},
   beforeMount() {
+    if (sessionStorage.getItem("cityId") == null) {
+      this.$router.push(`/city`);
+    }
     //获取ip
     this.ip = localStorage.getItem("Ip");
     // console.info(this.ip);
@@ -54,21 +57,41 @@ export default {
       url: `/ip?key=3ONBZ-GRALP-OZSD3-LGKMV-B47BV-2EF5L&ip=${this.ip}`
     })
       .then(res => {
-        console.log(res.data.result.ad_info.city);
-        this.name = res.data.result.ad_info.city;
-        console.log(this.name);
+        //处理城市名称去掉后称，比如湛江市=>湛江
+        this.tmp = this.changecityname(res.data.result.ad_info.city);
+        this.name = this.changecityname(res.data.result.ad_info.city);
+        sessionStorage.setItem("nowcity", this.tmp);
+        // console.log(this.name);
       })
       .catch(res => {
         console.log(res);
       });
+
+    //获取电影数据
   },
-  mounted() {},
   updated() {
-    this.name = sessionStorage.getItem("cityName");
+    //改变成当前城市
+    if (sessionStorage.getItem("cityName") == null) {
+      this.name = this.tmp;
+    } else {
+      this.name = sessionStorage.getItem("cityName");
+    }
   },
-  beforeDestroy() {
-    sessionStorage.setItem("cityName",name)
-  },
+  methods: {
+    //处理城市名称函数
+    changecityname(cityname) {
+      if (cityname.includes("市")) {
+        return cityname.replace("市", "");
+      }
+    },
+    //获取当前定位城市id
+    handlenowcity(datalist, cityname) {
+      for (var i = 0; i < datalist.length; i++) {
+        var arr = datalist.filter(item => item.name === cityname);
+      }
+      return arr;
+    }
+  }
 };
 </script>
 <style>

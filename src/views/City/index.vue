@@ -1,59 +1,68 @@
 <template>
-  <div id="main">
-    <div class="city-list">
-      <header id="header">
-        <router-link tag="i" class="iconfont" to="/movie/nowplaying">&#xe648;</router-link>
+    <div id="main">
+      <div class="city-list">
+        <header id="header">
+          <router-link tag="i" class="iconfont" to="/movie/nowplaying">&#xe648;</router-link>
 
-        <h1>
-          当前城市--
-          <keep-alive>
-            <span v-if="cityname" ref="cityname">{{cityname}}</span>
-          </keep-alive>
-        </h1>
-      </header>
-      <mt-index-list>
-        <div class="recommend-city">
-          <div class="hot-city">
-            <div class="city-index-title">热门城市</div>
+          <h1>当前城市--
+            <span v-if="cityName">{{cityName}}</span >
+          </h1>
+        </header>
+        <mt-index-list>
+          <div class="recommend-city">
+            <div class="city-index-title">定位城市</div>
             <ul class="city-index-detail clearfix">
-              <li v-for="city in hotlist" :key="city.cityId" class="city-item-detail">
+              <li class="city-item-detail" v-for="city in nowcitylist" :key="city.cityId">
                 <div
                   class="city-item-text"
-                  @click="handlecityid(city.cityId, city.name)"
+                  @click="handlecityid(city.cityId,city.name)"
                 >{{ city.name }}</div>
               </li>
             </ul>
           </div>
-        </div>
-        <mt-index-section :index="data.index" v-for="data in datalist" :key="data.index">
-          <div
-            v-for="city in data.list"
-            :key="city.cityId"
-            @click="handlecityid(city.cityId, city.name)"
-          >
-            <mt-cell :title="city.name"></mt-cell>
+          <div class="recommend-city">
+            <div class="hot-city">
+              <div class="city-index-title">热门城市</div>
+              <ul class="city-index-detail clearfix">
+                <li v-for="city in hotlist" :key="city.cityId" class="city-item-detail">
+                  <div
+                    class="city-item-text"
+                    @click="handlecityid(city.cityId, city.name)"
+                  >{{ city.name }}</div>
+                </li>
+              </ul>
+            </div>
           </div>
-        </mt-index-section>
-      </mt-index-list>
+          <mt-index-section :index="data.index" v-for="data in datalist" :key="data.index">
+            <div
+              v-for="city in data.list"
+              :key="city.cityId"
+              @click="handlecityid(city.cityId, city.name)"
+            >
+              <mt-cell :title="city.name"></mt-cell>
+            </div>
+          </mt-index-section>
+        </mt-index-list>
+      </div>
     </div>
-  </div>
 </template>
 <script>
 import axios from "axios";
 export default {
-  inject: ["reload"],
   name: "City",
   data() {
     return {
       datalist: [],
       hotlist: [],
-      cityname: ""
+      nowcity: "",
+      nowcitylist: [],
+      cityName:""
     };
   },
-  beforeCreate() {},
 
   mounted() {
-    //获取城市列表
+    this.cityName = sessionStorage.getItem("cityName")
+    // 获取城市列表
     axios({
       url: "https://m.maizuo.com/gateway?k=8905830",
       headers: {
@@ -68,10 +77,10 @@ export default {
       // console.log(this.datalist);
       this.hotlist = this.handlehotcity(res.data.data.cities);
       // console.log(this.hotlist);
+      this.nowcity = sessionStorage.getItem("nowcity");
+      this.nowcitylist = this.handlenowcity(res.data.data.cities, this.nowcity);
+      // console.log(this.nowcitylist);
     });
-    const Cityname = sessionStorage.getItem("cityName");
-    this.cityname = Cityname;
-    this.reload();
   },
 
   methods: {
@@ -111,9 +120,17 @@ export default {
       return arr;
     },
     handlecityid(id, name) {
+      //跳转函数
       sessionStorage.setItem("cityId", id);
       sessionStorage.setItem("cityName", name);
       this.$router.push(`/movie/nowplaying`);
+      sessionStorage.removeItem("nowcity")
+    },
+    handlenowcity(datalist, cityname) {
+      for (var i = 0; i < datalist.length; i++) {
+        var arr = datalist.filter(item => item.name === cityname);
+      }
+      return arr;
     }
   }
 };
@@ -164,7 +181,7 @@ export default {
 .mint-indexsection ul {
   padding: 0px 0px 0px 15px;
 }
-.mint-indexlist-nav{
+.mint-indexlist-nav {
   border: none;
 }
 .mint-indexlist-navitem {
@@ -176,7 +193,6 @@ export default {
   height: 30px;
   line-height: 30px;
   font-size: 12px;
-  width: 100%;
 }
 .mint-cell-wrapper {
   border-bottom: 1px solid #ededed;
