@@ -1,16 +1,21 @@
 <template>
   <div class="movie_body">
-    <ul>
-      <li v-for="data in filmlist" :key="data.filmId">
+    <ul
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="10"
+      infinite-scroll-immediate-check="true"
+    >
+      <li v-for="data in this.datalist" :key="data.filmId">
         <div class="pic_show">
           <img :src="data.poster" />
         </div>
         <div class="info_list">
           <h2>{{data.name}}</h2>
-          <p >
+          <p>
             观众评分
             <span class="grade" v-if="data.grade">{{data.grade}}</span>
-            <span v-else>暂无</span>
+            <span v-else class="nograde">暂无</span>
           </p>
           <p>主演: {{data.actors}}</p>
           <p>{{data.nation}} | {{data.runtime}}分钟</p>
@@ -23,23 +28,36 @@
 
 <script>
 import axios from "axios";
-// import { InfiniteScroll } from "mint-ui";
-// Vue.use(InfiniteScroll);
+import Vue from "vue";
+import { Indicator } from "mint-ui";
+
+Vue.filter("actors", function(data) {
+  var arr = data.map(item => item.name);
+  return arr.join(" ");
+});
 
 export default {
   name: "Nowplaying",
   data() {
     return {
       cityId: "",
-      filmlist: []
+      current: 1,
+      total: 0,
+      datalist: []
     };
   },
   created() {
+    Indicator.open({
+      text: "加载中...",
+      spinnerType: "triple-bounce"
+    });
     // this.$set(this.cityId,sessionStorage.getItem("cityId"))
     this.cityId = sessionStorage.getItem("cityId");
-  },
-  beforeMount() {
-     
+    // if (this.$store.state.nowplaying.length === 0) {
+    //   this.$store.dispatch("getnowplayinglist");
+    // } else {
+    //   console.log("使用nowplaying缓存数据");
+    // }
     axios({
       url: `https://m.maizuo.com/gateway?cityId=${this.cityId}&pageNum=1&pageSize=10&type=1&k=7301642`,
       headers: {
@@ -48,13 +66,35 @@ export default {
         "X-Host": "mall.film-ticket.film.list"
       }
     }).then(res => {
-      // console.log(res.data.data.films);
-      this.filmlist = res.data.data.films;
-       
+      console.log(res.data.data.films);
+      this.datalist = res.data.data.films;
+      this.total = res.data.data.total;
+      Indicator.close();
     });
   },
-  mounted() {
-     
+  methods: {
+    loadMore() {
+      console.log("到底了");
+      this.loading = true; //禁用滚动
+      this.current++;
+      console.log(this.total);
+      if (this.datalist.length >= this.total) {
+        return;
+      }
+      axios({
+        url: `https://m.maizuo.com/gateway?cityId=${this.cityId}&pageNum=${this.current}&pageSize=10&type=1&k=5740151`,
+        headers: {
+          "X-Client-Info":
+            '{"a":"3000","ch":"1002","v":"5.0.4","e":"1597891197669520976936963"}',
+          "X-Host": "mall.film-ticket.film.list"
+        }
+      }).then(res => {
+        this.datalist = [...this.datalist, ...res.data.data.films];
+        console.log(this.datalist);
+        this.total = this.res.data.data.total;
+        this.loading = true; //启用滚动
+      });
+    }
   }
 };
 </script>
@@ -107,6 +147,9 @@ export default {
   font-weight: 700;
   color: #faaf00;
   font-size: 15px;
+}
+.movie_body .info_list .nograde {
+  font-size: 11px;
 }
 .movie_body .info_list img {
   width: 50px;

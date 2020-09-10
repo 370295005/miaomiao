@@ -1,52 +1,56 @@
 <template>
-    <div id="main">
-      <div class="city-list">
-        <header id="header">
-          <router-link tag="i" class="iconfont" to="/movie/nowplaying">&#xe648;</router-link>
+  <div id="main">
+    <!-- <div v-for="data in citylist" :key="data.cityId">{{data.name}}</div> -->
+    <div class="city-list">
+      <header id="header">
+        <router-link tag="i" class="iconfont" to="/movie/nowplaying">&#xe648;</router-link>
 
-          <h1>当前城市--
-            <span v-if="cityName">{{cityName}}</span >
-          </h1>
-        </header>
-        <mt-index-list>
-          <div class="recommend-city">
-            <div class="city-index-title">定位城市</div>
+        <h1>
+          当前城市--
+          <span v-if="cityName">{{cityName}}</span>
+          <span v-else>{{nowcity}}</span>
+        </h1>
+      </header>
+      <mt-index-list>
+        <div class="recommend-city">
+          <div class="city-index-title">定位城市</div>
+          <ul class="city-index-detail clearfix">
+            <li class="city-item-detail" v-for="city in nowcitylist" :key="city.cityId">
+              <div
+                class="city-item-text"
+                @click="handlecityid(city.cityId,city.name)"
+              >{{ city.name }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="recommend-city">
+          <div class="hot-city">
+            <div class="city-index-title">热门城市</div>
             <ul class="city-index-detail clearfix">
-              <li class="city-item-detail" v-for="city in nowcitylist" :key="city.cityId">
+              <li v-for="city in hotlist" :key="city.cityId" class="city-item-detail">
                 <div
                   class="city-item-text"
-                  @click="handlecityid(city.cityId,city.name)"
+                  @click="handlecityid(city.cityId, city.name)"
                 >{{ city.name }}</div>
               </li>
             </ul>
           </div>
-          <div class="recommend-city">
-            <div class="hot-city">
-              <div class="city-index-title">热门城市</div>
-              <ul class="city-index-detail clearfix">
-                <li v-for="city in hotlist" :key="city.cityId" class="city-item-detail">
-                  <div
-                    class="city-item-text"
-                    @click="handlecityid(city.cityId, city.name)"
-                  >{{ city.name }}</div>
-                </li>
-              </ul>
-            </div>
+        </div>
+        <mt-index-section :index="data.index" v-for="data in datalist" :key="data.index">
+          <div
+            v-for="city in data.list"
+            :key="city.cityId"
+            @click="handlecityid(city.cityId, city.name)"
+          >
+            <mt-cell :title="city.name"></mt-cell>
           </div>
-          <mt-index-section :index="data.index" v-for="data in datalist" :key="data.index">
-            <div
-              v-for="city in data.list"
-              :key="city.cityId"
-              @click="handlecityid(city.cityId, city.name)"
-            >
-              <mt-cell :title="city.name"></mt-cell>
-            </div>
-          </mt-index-section>
-        </mt-index-list>
-      </div>
+        </mt-index-section>
+      </mt-index-list>
     </div>
+  </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import axios from "axios";
 export default {
   name: "City",
@@ -56,12 +60,24 @@ export default {
       hotlist: [],
       nowcity: "",
       nowcitylist: [],
-      cityName:""
+      cityName: ""
     };
   },
 
   mounted() {
-    this.cityName = sessionStorage.getItem("cityName")
+    this.cityName = sessionStorage.getItem("cityName");
+
+    // if (this.$store.state.citylist.length == 0) {
+    //   this.$store.dispatch("getcitylist");
+
+    // } else {
+    //   console.log("使用citylist缓存数据");
+    // }
+    // console.log(this.citylist);
+    // this.datalist = this.handlecity(this.$store.state.citylist);
+    // this.hostlist = this.handlehotcity(this.$store.state.citylist);
+    // this.nowcity = sessionStorage.getItem("nowcity");
+    // this.nowcity = this.handlenowcity(this.$store.state.citylist, this.nowcity);
     // 获取城市列表
     axios({
       url: "https://m.maizuo.com/gateway?k=8905830",
@@ -124,7 +140,7 @@ export default {
       sessionStorage.setItem("cityId", id);
       sessionStorage.setItem("cityName", name);
       this.$router.push(`/movie/nowplaying`);
-      sessionStorage.removeItem("nowcity")
+      sessionStorage.removeItem("nowcity");
     },
     handlenowcity(datalist, cityname) {
       for (var i = 0; i < datalist.length; i++) {
@@ -132,6 +148,11 @@ export default {
       }
       return arr;
     }
+  },
+  computed: {
+    ...mapState({
+      citylist: state => state.citylist
+    })
   }
 };
 </script>
