@@ -5,7 +5,7 @@
       <header id="header">
         <router-link tag="i" class="iconfont" to="/movie/nowplaying">&#xe648;</router-link>
 
-        <h1>
+        <h1 class="city-header">
           当前城市--
           <span v-if="cityName">{{cityName}}</span>
           <span v-else>{{nowcity}}</span>
@@ -159,10 +159,11 @@ export default {
 <style>
 #header {
   width: 100%;
-  height: 50px;
+  height: 40px;
   background-color: #fff;
   color: #000000;
   position: relative;
+  border-bottom: 1px solid #ededed;
 }
 #header i {
   position: absolute;
@@ -170,6 +171,12 @@ export default {
   top: 50%;
   margin-top: -12px;
   font-size: 24px;
+}
+#header .city-header{
+  font-size: 18px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: normal;
 }
 .recommend-city {
   padding-left: 15px;

@@ -17,7 +17,7 @@
             <span class="grade" v-if="data.grade">{{data.grade}}</span>
             <span v-else class="nograde">暂无</span>
           </p>
-          <p>主演: {{data.actors}}</p>
+          <p>主演: {{data.actors | actors}}</p>
           <p>{{data.nation}} | {{data.runtime}}分钟</p>
         </div>
         <div class="btn_mall">购票</div>
@@ -31,18 +31,17 @@ import axios from "axios";
 import Vue from "vue";
 import { Indicator } from "mint-ui";
 
-Vue.filter("actors", function(data) {
-  var arr = data.map(item => item.name);
-  return arr.join(" ");
-});
-
 export default {
   name: "Nowplaying",
   data() {
     return {
+      //获取当前选中城市id
       cityId: "",
+      //当前页面号
       current: 1,
+      //电影总量
       total: 0,
+      //电影数据列表初始化
       datalist: []
     };
   },
@@ -69,6 +68,10 @@ export default {
       console.log(res.data.data.films);
       this.datalist = res.data.data.films;
       this.total = res.data.data.total;
+      Vue.filter("actors", function(data) {
+        var arr = data.map(item => item.name);
+        return arr.join(" ");
+      });
       Indicator.close();
     });
   },
@@ -90,8 +93,6 @@ export default {
         }
       }).then(res => {
         this.datalist = [...this.datalist, ...res.data.data.films];
-        console.log(this.datalist);
-        this.total = this.res.data.data.total;
         this.loading = true; //启用滚动
       });
     }
@@ -120,6 +121,8 @@ export default {
 }
 .movie_body .pic_show img {
   width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 .movie_body .info_list {
   margin-left: 10px;
@@ -169,7 +172,5 @@ export default {
   font-size: 12px;
   cursor: pointer;
 }
-.movie_body .btn_pre {
-  background-color: #3c9fe6;
-}
+
 </style>

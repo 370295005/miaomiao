@@ -1,5 +1,10 @@
 <template>
   <div id="main">
+    <!-- <header class="cinema_header">
+      <div class="left"></div>
+      <div class="title"></div>
+      <div class="right"></div>
+    </header>-->
     <Header title="喵喵影院"></Header>
     <div id="content">
       <div class="cinema_menu">
@@ -28,10 +33,23 @@ import Cinemalist from "@/components/Cinemalist";
 export default {
   name: "Cinema",
   components: {
-    Header,
     Tabbar,
-    Cinemalist
+    Cinemalist,
+    Header
   }
 };
 </script>
-<style></style>
+<style>
+#content .cinema_menu {
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: white;
+}
+.cinema_menu div{
+  font-size: 14px;
+}
+</style>

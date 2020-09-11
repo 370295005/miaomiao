@@ -1,14 +1,12 @@
 <template>
   <div id="main">
     <Header title="喵喵电影"></Header>
-
     <div id="content">
       <div class="movie_menu">
         <router-link tag="div" to="/city" class="city_name">
           <keep-alive>
             <span>{{ this.name }}</span>
           </keep-alive>
-
           <i class="iconfont">&#xe502;</i>
         </router-link>
         <div class="hot_swtich">
@@ -35,7 +33,7 @@ export default {
   name: "Movie",
   data() {
     return {
-      name: "",
+      name: "定位",
       ip: "",
       tmp: "",
       cityId: ""
@@ -67,7 +65,6 @@ export default {
         console.log(res);
       });
 
-    //获取电影数据
   },
   updated() {
     //改变成当前城市

@@ -22,9 +22,9 @@ export default {
 #header {
   width: 100%;
   height: 40px;
-  color: #fff;
-  background: #e54847;
-  border-bottom: 1px solid #e54847;
+  color: rgb(37, 37, 37);
+  background: #ffffff;
+  border-bottom: 1px solid #ededed;
   position: relative;
 }
 #header h1 {
