@@ -11,14 +11,14 @@
           <img :src="data.poster" />
         </div>
         <div class="info_list">
-          <h2>{{data.name}}</h2>
+          <h2>{{ data.name }}</h2>
           <p>
             观众评分
-            <span class="grade" v-if="data.grade">{{data.grade}}</span>
+            <span class="grade" v-if="data.grade">{{ data.grade }}</span>
             <span v-else class="nograde">暂无</span>
           </p>
-          <p>主演: {{data.actors }}</p>
-          <p>{{data.nation}} | {{data.runtime}}分钟</p>
+          <p>主演: {{ data.actors }}</p>
+          <p>{{ data.nation }} | {{ data.runtime }}分钟</p>
         </div>
         <div class="btn_mall">预购</div>
       </li>
@@ -164,5 +164,4 @@ export default {
   font-size: 12px;
   cursor: pointer;
 }
-
 </style>

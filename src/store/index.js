@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios"
+import axios from "axios";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -8,17 +8,16 @@ export default new Vuex.Store({
     citylist: [],
     nowplaying: [],
     comingsoon: [],
-    nowplayingtotal:0
+    nowplayingtotal: 0
   },
   mutations: {
     citylistmutation(state, data) {
-      state.citylist = data
+      state.citylist = data;
     },
-    nowplayinglistmutation(state, data ,total) {
-      state.nowplaying = data
-      state.nowplayingtotal = total
+    nowplayinglistmutation(state, data, total) {
+      state.nowplaying = data;
+      state.nowplayingtotal = total;
     }
-
   },
   actions: {
     getcitylist(context) {
@@ -34,11 +33,11 @@ export default new Vuex.Store({
         // console.log(res.data.data.cities);
         // console.log(this.datalist);
         // console.log(this.hotlist);
-        context.commit('citylistmutation', res.data.data.cities)
+        context.commit("citylistmutation", res.data.data.cities);
       });
     },
     getnowplayinglist(context) {
-      var cityId = sessionStorage.getItem("cityId")
+      var cityId = sessionStorage.getItem("cityId");
       axios({
         url: `https://m.maizuo.com/gateway?cityId=${cityId}&pageNum=1&pageSize=10&type=1&k=7301642`,
         headers: {
@@ -49,9 +48,13 @@ export default new Vuex.Store({
       }).then(res => {
         // console.log(res.data.data.films);
 
-        context.commit("nowplayinglistmutation", res.data.data.films,res.data.data.total)
+        context.commit(
+          "nowplayinglistmutation",
+          res.data.data.films,
+          res.data.data.total
+        );
       });
     }
   },
-  modules: {},
+  modules: {}
 });

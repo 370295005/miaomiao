@@ -11,14 +11,15 @@
           <img :src="data.poster" />
         </div>
         <div class="info_list">
-          <h2>{{data.name}}</h2>
+          <h2>{{ data.name }}</h2>
           <p>
             观众评分
-            <span class="grade" v-if="data.grade">{{data.grade}}</span>
+            <span class="grade" v-if="data.grade">{{ data.grade }}</span>
             <span v-else class="nograde">暂无</span>
           </p>
-          <p>主演: {{data.actors | actors}}</p>
-          <p>{{data.nation}} | {{data.runtime}}分钟</p>
+          <p v-if="data.actors">主演: {{ data.actors }}</p>
+          <p v-else>主演: 暂无主演</p>
+          <p>{{ data.nation }} | {{ data.runtime }}分钟</p>
         </div>
         <div class="btn_mall">购票</div>
       </li>
@@ -28,7 +29,7 @@
 
 <script>
 import axios from "axios";
-import Vue from "vue";
+// import Vue from "vue";
 import { Indicator } from "mint-ui";
 
 export default {
@@ -68,19 +69,19 @@ export default {
       console.log(res.data.data.films);
       this.datalist = res.data.data.films;
       this.total = res.data.data.total;
-      Vue.filter("actors", function(data) {
-        var arr = data.map(item => item.name);
-        return arr.join(" ");
-      });
+      // Vue.filter("actors", function(data) {
+      //   var arr = data.map(item => item.name);
+      //   return arr.join(" ");
+      // });
       Indicator.close();
     });
   },
   methods: {
     loadMore() {
-      console.log("到底了");
+      // console.log("到底了");
       this.loading = true; //禁用滚动
       this.current++;
-      console.log(this.total);
+      // console.log(this.total);
       if (this.datalist.length >= this.total) {
         return;
       }
@@ -172,5 +173,4 @@ export default {
   font-size: 12px;
   cursor: pointer;
 }
-
 </style>

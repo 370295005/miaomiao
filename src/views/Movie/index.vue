@@ -10,8 +10,12 @@
           <i class="iconfont">&#xe502;</i>
         </router-link>
         <div class="hot_swtich">
-          <router-link tag="div" to="/movie/nowplaying" class="hot_item">正在热映</router-link>
-          <router-link tag="div" to="/movie/comingsoon" class="hot_item">即将上映</router-link>
+          <router-link tag="div" to="/movie/nowplaying" class="hot_item"
+            >正在热映</router-link
+          >
+          <router-link tag="div" to="/movie/comingsoon" class="hot_item"
+            >即将上映</router-link
+          >
         </div>
         <router-link tag="div" to="/movie/search" class="search_entry">
           <i class="iconfont icon-sousuo"></i>
@@ -49,12 +53,18 @@ export default {
     }
     //获取ip
     this.ip = localStorage.getItem("Ip");
+    console.log(this.ip);
     // console.info(this.ip);
     // 使用定位获取用户位置
     axios({
       url: `/ip?key=3ONBZ-GRALP-OZSD3-LGKMV-B47BV-2EF5L&ip=${this.ip}`
     })
       .then(res => {
+        console.log(res.data.result.location);
+        //设置纬度
+        sessionStorage.setItem("latitude", res.data.result.location.lat);
+        //设置经度
+        sessionStorage.setItem("longitude", res.data.result.location.lng);
         //处理城市名称去掉后称，比如湛江市=>湛江
         this.tmp = this.changecityname(res.data.result.ad_info.city);
         this.name = this.changecityname(res.data.result.ad_info.city);
@@ -64,7 +74,6 @@ export default {
       .catch(res => {
         console.log(res);
       });
-
   },
   updated() {
     //改变成当前城市

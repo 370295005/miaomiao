@@ -3,14 +3,17 @@
     <ul>
       <li v-for="data in this.cinemalist" :key="data.cinemaId">
         <div>
-          <span class="cinema_name">{{data.name}}</span>
+          <span class="cinema_name">{{ data.name }}</span>
           <span class="q">
-            <span class="price">22.9</span> 元起
+            <i>￥</i>
+            <span class="price">{{ data.lowPrice / 100 }}</span
+            >元
+            <span class="qi">起</span>
           </span>
         </div>
         <div class="address">
-          <span>{{data.address}}</span>
-          <span>1763.5km</span>
+          <span>{{ data.address }}</span>
+          <span>{{ data.Distance.toFixed(2) }}km</span>
         </div>
         <!-- <div class="card">
           <div>小吃</div>
@@ -23,6 +26,7 @@
 
 <script>
 import axios from "axios";
+import { Indicator } from "mint-ui";
 export default {
   name: "Cinemalist",
   data() {
@@ -32,6 +36,10 @@ export default {
     };
   },
   created() {
+    Indicator.open({
+      text: "加载中...",
+      spinnerType: "triple-bounce"
+    });
     this.cityId = sessionStorage.getItem("cityId");
     axios({
       url: `https://m.maizuo.com/gateway?cityId=${this.cityId}&ticketFlag=1&k=120676`,
@@ -43,6 +51,7 @@ export default {
     }).then(res => {
       console.log(res.data.data.cinemas);
       this.cinemalist = res.data.data.cinemas;
+      Indicator.close();
     });
   },
   components: {},
@@ -71,24 +80,32 @@ export default {
   margin-bottom: 10px;
 }
 .cinema_body .cinema_name {
+  display: inline-block;
   font-size: 15px;
+  width: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .cinema_body .q {
   float: right;
   font-size: 11px;
   color: #f03d37;
 }
-
+.cinema_body i {
+  font-style: normal;
+}
 .cinema_body .price {
-  font-size: 18px;
+  font-size: 15px;
 }
-.cinema_body .address{
-  max-width: 80%;
+.cinema_body .qi {
+  font-size: 12px;
 }
+
 .cinema_body .address span:nth-child(1) {
   font-size: 12px;
   color: #666;
-  display: block;
+  display: inline-block;
   width: 70%;
   overflow: hidden;
   -o-text-overflow: ellipsis;
@@ -99,6 +116,5 @@ export default {
 .cinema_body .address span:nth-child(2) {
   float: right;
   font-size: 12px;
-  
 }
 </style>

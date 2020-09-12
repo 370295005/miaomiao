@@ -49,7 +49,7 @@ export default {
   align-items: center;
   background: white;
 }
-.cinema_menu div{
+.cinema_menu div {
   font-size: 14px;
 }
 </style>
