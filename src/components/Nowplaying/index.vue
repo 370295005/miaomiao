@@ -6,7 +6,7 @@
       infinite-scroll-distance="10"
       infinite-scroll-immediate-check="true"
     >
-      <li v-for="data in this.datalist" :key="data.filmId">
+      <li v-for="data in this.datalist" :key="data.filmId" @click="changefilm(data.filmId)">
         <div class="pic_show">
           <img :src="data.poster" />
         </div>
@@ -96,6 +96,9 @@ export default {
         this.datalist = [...this.datalist, ...res.data.data.films];
         this.loading = true; //启用滚动
       });
+    },
+    changefilm(id) {
+      this.$router.push({ name: "film", params: { id: id } });
     }
   }
 };

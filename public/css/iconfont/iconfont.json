@@ -1,6 +1,6 @@
 {
-  "id": "",
-  "name": "",
+  "id": "2070708",
+  "name": "miaomiao",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
@@ -23,8 +23,15 @@
       "icon_id": "6721961",
       "name": "下三角",
       "font_class": "lower-triangle",
-      "unicode": "e502",
-      "unicode_decimal": 58626
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "10400308",
+      "name": "返 回",
+      "font_class": "fanhui",
+      "unicode": "e601",
+      "unicode_decimal": 58881
     },
     {
       "icon_id": "15549026",

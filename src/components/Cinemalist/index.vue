@@ -1,16 +1,16 @@
 <template>
   <div class="cinema_body">
     <ul>
-      <li v-for="data in this.cinemalist" :key="data.cinemaId">
+      <li v-for="data in this.cinemalist" :key="data.cinemaId" @click="changecinema(data.cinemaId)">
         <div>
           <span class="cinema_name">{{ data.name }}</span>
           <span class="q">
             <i>￥</i>
-            <span class="price">{{ data.lowPrice / 100 }}</span
-            >元
+            <span class="price">{{ data.lowPrice / 100 }}</span>元
             <span class="qi">起</span>
           </span>
         </div>
+
         <div class="address">
           <span>{{ data.address }}</span>
           <span>{{ data.Distance.toFixed(2) }}km</span>
@@ -23,7 +23,6 @@
     </ul>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 import { Indicator } from "mint-ui";
@@ -58,7 +57,16 @@ export default {
 
   computed: {},
 
-  methods: {}
+  methods: {
+    changecinema(id) {
+      this.$router.push({
+        path: `/cinemadetail/${id}`,
+        params: {
+          id: id
+        }
+      });
+    }
+  }
 };
 </script>
 <style scoped>
