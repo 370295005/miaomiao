@@ -59,12 +59,7 @@ export default {
 
   methods: {
     changecinema(id) {
-      this.$router.push({
-        path: `/cinemadetail/${id}`,
-        params: {
-          id: id
-        }
-      });
+      this.$router.push({ name: "cinema", params: { id: id } });
     }
   }
 };

@@ -136,6 +136,7 @@ export default {
   position: absolute;
   left: 10px;
   transition: all 0.3s ease;
+  color: #949494;
 }
 .film .film-header .title {
   line-height: 44px;
@@ -286,5 +287,8 @@ export default {
 .film .photos .photo {
   height: 100px;
   min-height: 100px;
+}
+.film .photos .photos-swiper{
+  padding: 0px 10px;
 }
 </style>

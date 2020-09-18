@@ -7,7 +7,7 @@
           <keep-alive>
             <span>{{ this.name }}</span>
           </keep-alive>
-          <i class="iconfont">&#xe502;</i>
+          <i class="iconfont">&#xe600;</i>
         </router-link>
         <div class="hot_swtich">
           <router-link tag="div" to="/movie/nowplaying" class="hot_item"

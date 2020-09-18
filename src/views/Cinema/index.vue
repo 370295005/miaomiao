@@ -1,10 +1,5 @@
 <template>
   <div id="main">
-    <!-- <header class="cinema_header">
-      <div class="left"></div>
-      <div class="title"></div>
-      <div class="right"></div>
-    </header>-->
     <Header title="喵喵影院"></Header>
     <div id="content">
       <div class="cinema_menu">
@@ -23,6 +18,7 @@
       </div>
       <Cinemalist></Cinemalist>
     </div>
+    
     <Tabbar></Tabbar>
   </div>
 </template>
@@ -42,7 +38,7 @@ export default {
 <style>
 #content .cinema_menu {
   width: 100%;
-  height: 40px;
+  height: 45px;
   border-bottom: 1px solid #e6e6e6;
   display: flex;
   justify-content: space-around;

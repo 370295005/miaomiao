@@ -5,7 +5,7 @@ import minerouter from "./mine";
 import cinemarouter from "./cinema";
 import cityrouter from "./city";
 import Filmdetail from "@/views/Filmdetail"
-
+import Cinemadetail from "@/views/Cinemadetail"
 Vue.use(VueRouter);
 
 const routes = [
@@ -19,8 +19,13 @@ const routes = [
   },
   {
     path: "/filmdetail/:id",
-    name:'film',
+    name: 'film',
     component: Filmdetail
+  },
+  {
+    path: "/cinemadetail/:id",
+    name: 'cinema',
+    component: Cinemadetail
   }
 ];
 
