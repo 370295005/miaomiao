@@ -16,6 +16,7 @@ export default {
       slidesPerView: this.perview,
       spaceBetween: 30,
       centeredSlides: true,
+      slideToClickedSlide: true,
       loop: false,
       freeMode: true,
       pagination: {

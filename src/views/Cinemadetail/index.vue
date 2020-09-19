@@ -19,12 +19,7 @@
     <div class="schedule-wrap">
       <div class="film-list">
         <swiper perview="4" myclassname="cinemaswiper" :key="filminfo.length">
-          <div
-            class="swiper-slide"
-            v-for="data in filminfo"
-            :key="data.length"
-            @click="active($event)"
-          >
+          <div class="swiper-slide" v-for="data in filminfo" :key="data.length">
             <img :src="data.poster" alt style="width:90px;height:130px" />
           </div>
         </swiper>
@@ -72,12 +67,47 @@ export default {
       this.$router.push("/cinema");
     },
     active(e) {
+      //点击图片就把他作为当前选中的电影
+      //先把所有的节点类名都初始化，然后把选中的那个加active类，他的前一个兄弟加pre类。后一个加next类
       //下一个兄弟节点
-      console.log(e.target.offsetParent.nextSibling);
+      //   console.log(e.target.offsetParent.nextSibling);
       //  上一个兄弟节点
-      console.log(e.target.offsetParent.previousSibling);
+      //   console.log(e.target.offsetParent.previousSibling);
+      console.log(e.target.offsetParent);
+      //   console.log(e.target.offsetParent.offsetParent.children.length);
       // console.log(e.target.offsetParent.className)
       // e.target.offsetParent.className = "swiper-slide,swiper-slide-active"
+      for (
+        var i = 0;
+        i < e.target.offsetParent.offsetParent.children.length;
+        i++
+      ) {
+        e.target.offsetParent.offsetParent.children[i].className =
+          "swiper-slide";
+      }
+      if (
+        e.target.offsetParent.nextSibling == null &&
+        e.target.offsetParent.previousSibling !== null
+      ) {
+        //那他就是最后一个
+        (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
+          (e.target.offsetParent.previousSibling.className =
+            "swiper-slide swiper-slide-prev");
+      } else if (
+        e.target.offsetParent.nextSibling !== null &&
+        e.target.offsetParent.previousSibling == null
+      ) {
+        //那他就是第一个
+        (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
+          (e.target.offsetParent.nextSibling.className =
+            "swiper-slide swiper-slide-next");
+      } else {
+        e.target.offsetParent.previousSibling.className =
+          "swiper-slide swiper-slide-prev";
+        (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
+          (e.target.offsetParent.nextSibling.className =
+            "swiper-slide swiper-slide-next");
+      }
     }
   },
   components: {
