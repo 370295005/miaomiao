@@ -18,12 +18,12 @@ const routes = [
     redirect: "/movie"
   },
   {
-    path: "/filmdetail/:id",
+    path: "/film/:id",
     name: 'film',
     component: Filmdetail
   },
   {
-    path: "/cinemadetail/:id",
+    path: "/cinema/:id",
     name: 'cinema',
     component: Cinemadetail
   }

@@ -225,6 +225,7 @@ export default {
 }
 .film .actors .actors-title-bar {
   padding: 15px;
+  /* border-bottom: 1px solid #c5c5c5; */
 }
 .film .actors .actors-title-bar .actors-title-text {
   font-size: 16px;
@@ -237,7 +238,7 @@ export default {
   line-height: 22px;
 }
 .film .actors .actors-swiper {
-  padding: 10px 0px;
+  padding: 10px 10px;
 }
 .film .actors .actorname {
   padding-top: 10px;
@@ -267,7 +268,7 @@ export default {
 }
 .film .photos {
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   background-color: #fff;
 }
 .film .photos .photos-title-bar {

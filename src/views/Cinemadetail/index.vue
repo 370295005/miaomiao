@@ -17,9 +17,12 @@
       </div>
     </div>
     <div class="schedule-wrap">
+      <div class="film-bg">
+        <div class="img" :style="{backgroundImage:'url('+bgimg+')'}"></div>
+      </div>
       <div class="film-list">
         <swiper perview="4" myclassname="cinemaswiper" :key="filminfo.length">
-          <div class="swiper-slide" v-for="data in filminfo" :key="data.length">
+          <div class="swiper-slide" v-for="data in filminfo" :key="data.length" ref="poster">
             <img :src="data.poster" alt style="width:90px;height:130px" />
           </div>
         </swiper>
@@ -34,11 +37,13 @@ export default {
   data() {
     return {
       cinemainfo: "",
-      filminfo: ""
+      filminfo: "",
+      bgimg: ""
     };
   },
   created() {
-    console.log(this.$router.history.current.params.id);
+    //电影院id
+    // console.log(this.$router.history.current.params.id);
     axios({
       url: `https://m.maizuo.com/gateway/?cinemaId=${this.$router.history.current.params.id}&k=7962337`,
       headers: {
@@ -47,7 +52,7 @@ export default {
         "X-Host": "mall.film-ticket.cinema.info"
       }
     }).then(res => {
-      console.log(res.data.data.cinema);
+      // console.log(res.data.data.cinema);
       this.cinemainfo = res.data.data.cinema;
     });
     axios({
@@ -60,55 +65,76 @@ export default {
     }).then(res => {
       console.log(res.data.data.films);
       this.filminfo = res.data.data.films;
+      this.bgimg = res.data.data.films[0].poster;
+    });
+  },
+  mounted() {
+    // var poster = document.querySelectorAll(".swiper-slide-active .swiper-slide")
+    // console.log(poster);
+  },
+  beforeUpdate() {},
+  updated() {
+    console.log(this.$refs.poster);
+    this.$nextTick(() => {
+      for (var i = 0; i < this.filminfo.length; i++) {
+        if (
+          this.$refs.poster[i].className == "swiper-slide swiper-slide-active"
+        ) {
+          console.log(this.$refs.poster[i].children[0].currentSrc);
+          this.bgimg = this.$refs.poster[i].children[0].currentSrc;
+          break;
+        }
+      }
+      console.log(this.bgimg);
     });
   },
   methods: {
     back() {
       this.$router.push("/cinema");
-    },
-    active(e) {
-      //点击图片就把他作为当前选中的电影
-      //先把所有的节点类名都初始化，然后把选中的那个加active类，他的前一个兄弟加pre类。后一个加next类
-      //下一个兄弟节点
-      //   console.log(e.target.offsetParent.nextSibling);
-      //  上一个兄弟节点
-      //   console.log(e.target.offsetParent.previousSibling);
-      console.log(e.target.offsetParent);
-      //   console.log(e.target.offsetParent.offsetParent.children.length);
-      // console.log(e.target.offsetParent.className)
-      // e.target.offsetParent.className = "swiper-slide,swiper-slide-active"
-      for (
-        var i = 0;
-        i < e.target.offsetParent.offsetParent.children.length;
-        i++
-      ) {
-        e.target.offsetParent.offsetParent.children[i].className =
-          "swiper-slide";
-      }
-      if (
-        e.target.offsetParent.nextSibling == null &&
-        e.target.offsetParent.previousSibling !== null
-      ) {
-        //那他就是最后一个
-        (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
-          (e.target.offsetParent.previousSibling.className =
-            "swiper-slide swiper-slide-prev");
-      } else if (
-        e.target.offsetParent.nextSibling !== null &&
-        e.target.offsetParent.previousSibling == null
-      ) {
-        //那他就是第一个
-        (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
-          (e.target.offsetParent.nextSibling.className =
-            "swiper-slide swiper-slide-next");
-      } else {
-        e.target.offsetParent.previousSibling.className =
-          "swiper-slide swiper-slide-prev";
-        (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
-          (e.target.offsetParent.nextSibling.className =
-            "swiper-slide swiper-slide-next");
-      }
     }
+    // active(e) {
+    //   //点击图片就把他作为当前选中的电影
+    //   //先把所有的节点类名都初始化，然后把选中的那个加active类，他的前一个兄弟加pre类。后一个加next类
+    //   //下一个兄弟节点
+    //   //   console.log(e.target.offsetParent.nextSibling);
+    //   //  上一个兄弟节点
+    //   //   console.log(e.target.offsetParent.previousSibling);
+    //   console.log(e.target.offsetParent);
+    //   //   console.log(e.target.offsetParent.offsetParent.children.length);
+    //   // console.log(e.target.offsetParent.className)
+    //   // e.target.offsetParent.className = "swiper-slide,swiper-slide-active"
+    //   for (
+    //     var i = 0;
+    //     i < e.target.offsetParent.offsetParent.children.length;
+    //     i++
+    //   ) {
+    //     e.target.offsetParent.offsetParent.children[i].className =
+    //       "swiper-slide";
+    //   }
+    //   if (
+    //     e.target.offsetParent.nextSibling == null &&
+    //     e.target.offsetParent.previousSibling !== null
+    //   ) {
+    //     //那他就是最后一个
+    //     (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
+    //       (e.target.offsetParent.previousSibling.className =
+    //         "swiper-slide swiper-slide-prev");
+    //   } else if (
+    //     e.target.offsetParent.nextSibling !== null &&
+    //     e.target.offsetParent.previousSibling == null
+    //   ) {
+    //     //那他就是第一个
+    //     (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
+    //       (e.target.offsetParent.nextSibling.className =
+    //         "swiper-slide swiper-slide-next");
+    //   } else {
+    //     e.target.offsetParent.previousSibling.className =
+    //       "swiper-slide swiper-slide-prev";
+    //     (e.target.offsetParent.className = "swiper-slide swiper-slide-active"),
+    //       (e.target.offsetParent.nextSibling.className =
+    //         "swiper-slide swiper-slide-next");
+    //   }
+    // }
   },
   components: {
     swiper
@@ -203,12 +229,18 @@ export default {
   padding: 15px 0;
   position: relative;
 }
-.main .cinema-schedule .schedule-wrap .film-bg {
+.main .schedule-wrap .film-bg {
   position: absolute;
   top: 0;
-  height: 160px;
+  height: 140px;
   width: 100%;
   padding: 15px 0;
   overflow: hidden;
+}
+.main .schedule-wrap .film-bg .img {
+  height: 100%;
+  width: 100%;
+  filter: blur(30px);
+  -webkit-filter: blur(30px);
 }
 </style>

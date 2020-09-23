@@ -3,9 +3,7 @@
     <!-- <div v-for="data in citylist" :key="data.cityId">{{data.name}}</div> -->
     <div class="city-list">
       <header id="header">
-        <router-link tag="i" class="iconfont" to="/movie/nowplaying"
-          >&#xe648;</router-link
-        >
+        <router-link tag="i" class="iconfont" to="/movie/nowplaying">&#xe648;</router-link>
 
         <h1 class="city-header">
           当前城市--
@@ -17,17 +15,12 @@
         <div class="recommend-city">
           <div class="city-index-title">定位城市</div>
           <ul class="city-index-detail clearfix">
-            <li
-              class="city-item-detail"
-              v-for="city in nowcitylist"
-              :key="city.cityId"
-            >
-              <div
+            <li class="city-item-detail" v-for="city in nowcitylist" :key="city.cityId">
+              <div v-if="city.name"
                 class="city-item-text"
                 @click="handlecityid(city.cityId, city.name)"
-              >
-                {{ city.name }}
-              </div>
+              >{{ city.name }}</div>
+              <div class="city-item-text" v-else>定位失败</div>
             </li>
           </ul>
         </div>
@@ -35,26 +28,16 @@
           <div class="hot-city">
             <div class="city-index-title">热门城市</div>
             <ul class="city-index-detail clearfix">
-              <li
-                v-for="city in hotlist"
-                :key="city.cityId"
-                class="city-item-detail"
-              >
+              <li v-for="city in hotlist" :key="city.cityId" class="city-item-detail">
                 <div
                   class="city-item-text"
                   @click="handlecityid(city.cityId, city.name)"
-                >
-                  {{ city.name }}
-                </div>
+                >{{ city.name }}</div>
               </li>
             </ul>
           </div>
         </div>
-        <mt-index-section
-          :index="data.index"
-          v-for="data in datalist"
-          :key="data.index"
-        >
+        <mt-index-section :index="data.index" v-for="data in datalist" :key="data.index">
           <div
             v-for="city in data.list"
             :key="city.cityId"
