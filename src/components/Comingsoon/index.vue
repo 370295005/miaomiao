@@ -1,5 +1,5 @@
 <template>
-  <div class="movie_body">
+  <div class="movie_body" v-if="datalist">
     <ul
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="loading"
@@ -17,7 +17,7 @@
             <span class="grade" v-if="data.grade">{{ data.grade }}</span>
             <span v-else class="nograde">暂无</span>
           </p>
-          <p>主演: {{ data.actors }}</p>
+          <p>主演: {{ data.actors | actors}}</p>
           <p>{{ data.nation }} | {{ data.runtime }}分钟</p>
         </div>
         <div class="btn_mall">预购</div>
@@ -28,7 +28,7 @@
 
 <script>
 import axios from "axios";
-// import Vue from "vue";
+import Vue from "vue";
 import { Indicator } from "mint-ui";
 export default {
   name: "Comingsoon",
@@ -62,10 +62,10 @@ export default {
     }).then(res => {
       this.datalist = res.data.data.films;
       this.total = res.data.data.total;
-      // Vue.filter("actors", function(data) {
-      //   var arr = data.map(item => item.name);
-      //   return arr.join(" ");
-      // });
+      Vue.filter("actors", function(data) {
+        var arr = data.map(item => item.name);
+        return arr.join(" ");
+      });
       Indicator.close();
     });
   },

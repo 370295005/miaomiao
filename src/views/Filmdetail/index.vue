@@ -1,8 +1,14 @@
 <template>
   <div class="film" v-if="filminfo">
-    <div class="film-header" ref="header" :class="isshow? 'show-film-header':'film-header'">
+    <div
+      class="film-header"
+      ref="header"
+      :class="isshow ? 'show-film-header' : 'film-header'"
+    >
       <div class="back iconfont" @click="back">&#xe601;</div>
-      <div class="title" :class="isshow? 'show-title':'title'">{{filminfo.name}}</div>
+      <div class="title" :class="isshow ? 'show-title' : 'title'">
+        {{ filminfo.name }}
+      </div>
     </div>
     <div class="film-poster">
       <img :src="filminfo.poster" alt />
@@ -10,29 +16,46 @@
     <div class="film-detail">
       <div class="col">
         <div class="film-name">
-          <span class="name">{{filminfo.name}}</span>
-          <span class="item">{{filminfo.filmType.name}}</span>
+          <span class="name">{{ filminfo.name }}</span>
+          <span class="item">{{ filminfo.filmType.name }}</span>
         </div>
         <div class="film-grade" v-if="filminfo.grade">
-          <span class="grade">{{filminfo.grade}}</span>
+          <span class="grade">{{ filminfo.grade }}</span>
           <span class="grade-text">&nbsp;分</span>
         </div>
       </div>
-      <div class="film-category grey-text">{{filminfo.category}}</div>
-      <div class="film-premiere-time grey-text"></div>
-      <div class="film-nation-runtime grey-text">{{filminfo.nation}} | {{filminfo.runtime}} 分钟</div>
-      <div class="test grey-text">{{filminfo.synopsis}}</div>
+      <div class="film-category grey-text">{{ filminfo.category }}</div>
+      <div class="film-premiere-time grey-text" v-if="filminfo.premiereAt">
+        {{ premieretime }}上映
+      </div>
+      <div class="film-nation-runtime grey-text">
+        {{ filminfo.nation }} | {{ filminfo.runtime }} 分钟
+      </div>
+      <div class="test grey-text">{{ filminfo.synopsis }}</div>
     </div>
     <div class="actors">
       <div class="actors-title-bar">
         <span class="actors-title-text">演职人员</span>
       </div>
       <div class="actors-swiper" v-if="actorlist">
-        <swiper perview="3" class="actorswiper" myclassname="actorswiper" :key="actorlist.length">
-          <div class="swiper-slide" v-for="data in filminfo.actors" :key="data.name">
-            <img style="width:85px;min-width:85px" :src="data.avatarAddress" alt />
-            <p class="actorname">{{data.name}}</p>
-            <p class="actorrole">{{data.role}}</p>
+        <swiper
+          perview="3"
+          class="actorswiper"
+          myclassname="actorswiper"
+          :key="actorlist.length"
+        >
+          <div
+            class="swiper-slide"
+            v-for="data in filminfo.actors"
+            :key="data.role"
+          >
+            <img
+              style="width:85px;min-width:85px"
+              :src="data.avatarAddress"
+              alt
+            />
+            <p class="actorname">{{ data.name }}</p>
+            <p class="actorrole">{{ data.role }}</p>
           </div>
         </swiper>
       </div>
@@ -42,7 +65,12 @@
         <span class="photos-title-text">剧照</span>
       </div>
       <div class="photos-swiper" v-if="photolist">
-        <swiper perview="2" class="photoswiper" myclassname="photoswiper" :key="photolist.length">
+        <swiper
+          perview="2"
+          class="photoswiper"
+          myclassname="photoswiper"
+          :key="photolist.length"
+        >
           <div class="swiper-slide" v-for="data in filminfo.photos" :key="data">
             <img class="photo" style="width:150px" :src="data" alt />
           </div>
@@ -60,7 +88,9 @@ export default {
       filminfo: "",
       actorlist: [],
       photolist: [],
-      isshow: false
+      isshow: false,
+      mouth: 0,
+      premieretime: ""
     };
   },
   created() {
@@ -76,6 +106,14 @@ export default {
       this.filminfo = res.data.data.film;
       this.actorlist = res.data.data.film.actors;
       this.photolist = res.data.data.film.photos;
+      this.mouth = new Date(this.filminfo.premiereAt * 1000).getMonth() + 1;
+      this.premieretime =
+        new Date(this.filminfo.premiereAt * 1000).getFullYear() +
+        "-" +
+        this.mouth +
+        "-" +
+        new Date(this.filminfo.premiereAt * 1000).getDate();
+      console.log(this.premieretime);
     });
   },
   mounted() {
@@ -86,7 +124,7 @@ export default {
   },
   methods: {
     back() {
-      this.$router.push(`/movie/nowplaying`);
+      this.$router.go(-1);
     },
     handlescroll() {
       var header = document.getElementsByClassName("film-header");
@@ -289,7 +327,7 @@ export default {
   height: 100px;
   min-height: 100px;
 }
-.film .photos .photos-swiper{
+.film .photos .photos-swiper {
   padding: 0px 10px;
 }
 </style>

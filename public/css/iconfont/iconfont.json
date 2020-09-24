@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "579809",
+      "name": "前进",
+      "font_class": "qianjin",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
       "icon_id": "167218",
       "name": "电话",
       "font_class": "dianhua",
